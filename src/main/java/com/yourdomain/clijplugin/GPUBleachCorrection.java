@@ -52,6 +52,7 @@ import org.scijava.plugin.Plugin;
 
 import java.util.HashMap;
 
+// Modified @plugin parameters
 @Plugin(type = CLIJCorrectBleach.class, name = "GPUCorrectBleach")
 
 // Merge CLIJ statements
