@@ -6,37 +6,37 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>net.haesleinhuepf</groupId>
-		<artifactId>clij-parent-pom</artifactId>
-		<version>1.0.4</version>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>26.0.0</version>
 		<relativePath />
 	</parent>
 
-	<groupId>com.yourdomain</groupId>
+	<groupId>sc.fiji</groupId>
 	<!-- note: the artifactId must contain an underscore _ to make ImageJ handle it correctly.-->
-	<artifactId>yourplugin_</artifactId>
-	<version>0.1.0</version>
+	<artifactId>GPUCorrectBleach_</artifactId>
+	<version>2.0.3-SNAPSHOT</version>
 
-	<name>YourPlugin</name>
-	<description>YourPlugin</description>
-	<url>http://yourdomain.com</url>
-	<inceptionYear>2018</inceptionYear>
+	<name>GPUCorrectBleach</name>
+	<description>CorrectBleach plugin with GPU for Fiji</description>
+	<url>https://imagej.net/Bleach_Correction</url>
+	<inceptionYear>2012</inceptionYear>
 	<organization>
-		<name>Your organisation</name>
-		<url>http://yourdomain.com</url>
+		<name>Fiji</name>
+		<url>https://fiji.sc/</url>
 	</organization>
 	<licenses>
 		<license>
-			<name>Public domain</name>
+			<name>GNU General Public License v3+</name>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
 
 	<developers>
 		<developer>
-			<id>yourid</id>
-			<name>You</name>
-			<url>https://yourdomain.com</url>
+			<id>cmci</id>
+			<name>Kota Miura</name>
+			<url>https://imagej.net/User:Miura</url>
 			<organization>Your organisation</organization>
 			<roles>
 				<role>developer</role>
@@ -67,22 +67,41 @@
 		<url>https://github.com/clij/clij/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>None</system>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/fiji/CorrectBleach</url>
 	</ciManagement>
 
 	<properties>
-		<package-name>com.yourcompany</package-name>
-		<license.licenseName>bsd_3</license.licenseName>
-		<license.copyrightOwners>You</license.copyrightOwners>
+		<package-name>emblcmci</package-name>
+		<license.licenseName>gpl_v3</license.licenseName>
+		<license.copyrightOwners>Fiji developers.</license.copyrightOwners>
+		<license.projectName>Fiji distribution of ImageJ for the life sciences.</license.projectName>
 		<imagej.app.directory>/Applications/Fiji.app</imagej.app.directory>
-		<!--<imagej.app.directory>/home/rhaase/programs/fiji/Fiji.app/</imagej.app.directory>-->
+
+		<!-- NB: Deploy releases to the SciJava Maven repository. -->
+		<releaseProfiles>deploy-to-scijava</releaseProfiles>
+		
 	</properties>
+	
+	<repositories>
+		<repository>
+			<id>scijava.public</id>
+			<url>https://maven.scijava.org/content/groups/public</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
 			<groupId>net.haesleinhuepf</groupId>
 			<artifactId>clij_</artifactId>
-     	</dependency>
+     		</dependency>
+		
+		<!-- ImageJ dependencies -->
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>ij</artifactId>
+		</dependency>
+		
 	</dependencies>
 
 	<repositories>
