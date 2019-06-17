@@ -95,6 +95,7 @@ public class BleachCorrection extends AbstractCLIJPlugin implements PlugInFilter
 	    	//       Name your output images with a name containing "destination" to make CLIJ generate them automatically and
 	    	//       not prompt the user for it.
 			
+		// Added CLIJ statement
 		@Override
 		public int setup(String arg, ImagePlus imp) {
 			this.imp = imp;
@@ -104,6 +105,7 @@ public class BleachCorrection extends AbstractCLIJPlugin implements PlugInFilter
 				return DOES_8G+DOES_16+STACK_REQUIRED;
 			}
 
+		// Added CLIJ statement
 		@Override
 		public void run(ImageProcessor ip) {
 			Roi curROI = imp.getRoi();
