@@ -67,7 +67,8 @@
 		<url>https://github.com/clij/clij/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>None</system>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/fiji/CorrectBleach</url>
 	</ciManagement>
 
 	<properties>
