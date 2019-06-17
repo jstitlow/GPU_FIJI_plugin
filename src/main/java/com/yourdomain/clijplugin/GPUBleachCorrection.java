@@ -42,24 +42,67 @@ import ij.plugin.Duplicator;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.ImageProcessor;
 
+// added CLIJ imports
+import net.haesleinhuepf.clij.clearcl.ClearCLBuffer;
+import net.haesleinhuepf.clij.macro.AbstractCLIJPlugin;
+import net.haesleinhuepf.clij.macro.CLIJMacroPlugin;
+import net.haesleinhuepf.clij.macro.CLIJOpenCLProcessor;
+import net.haesleinhuepf.clij.macro.documentation.OffersDocumentation;
+import org.scijava.plugin.Plugin;
 
-public class BleachCorrection implements PlugInFilter {
+import java.util.HashMap;
+
+@Plugin(type = CLIJCorrectBleach.class, name = "GPUCorrectBleach")
+
+// Merge CLIJ statements
+public class BleachCorrection extends AbstractCLIJPlugin implements PlugInFilter CLIJMacroPlugin, CLIJOpenCLProcessor, OffersDocumentation {
 		ImagePlus imp;
+		
+		// Added CLIJ statement
+	    	@Override
+	    	public boolean executeCL() {
+			Object[] args = openCLBufferArgs();
+			// -------------------------------------------------------------------------------------------------------------
+			// todo: Build in your own code here. The variable args contains all parameters handed over in the order as
+			//      entered in ImageJ macro or in the dialog. Images have type ClearCLBuffer, numbers come as Double.
+			//      Use the methods asFloat(args[n]), asInteger(args[n]), asBoolean(args[n]) to convert them properly.
 
-		String[] CorrectionMethods =  { "Simple Ratio", "Exponential Fit", "Histogram Matching" };
+			boolean result = addScalar((ClearCLBuffer)( args[0]), (ClearCLBuffer)(args[1]), asFloat(args[2]));
 
-		/**Correction Method  0: simple ratio 1: exponential fit 2: histogramMatch
-		*/
-		private static int CorrectionMethod = 0;
+			// -------------------------------------------------------------------------------------------------------------
+			releaseBuffers(args);
+			return result;
+	    	}
+	
+	    	// -----------------------------------------------------------------------------------------------------------------
+	    	// todo: enter your corde here. The argument order may be changed. However, it is recommended to use the same order
+	    	//       as defined in the getParameterHelpText() method to prevent confusion.
+	    	
+		
+		private boolean addScalar(ClearCLBuffer src, ClearCLBuffer dst, Float scalar) {
+			HashMap<String, Object> lParameters = new HashMap<>();
+			lParameters.put("src", src);
+			lParameters.put("scalar", scalar);
+			lParameters.put("dst", dst);
 
+			// todo: The location of the .cl file must be relative to the class specified below:
+			return clij.execute(PluginTemplate.class, "template.cl", "addScalar_" + src.getDimension() + "d", lParameters);
+	    	}
+
+	    	// -----------------------------------------------------------------------------------------------------------------
+	    	// todo: enter the list of parameters you need in order to make your algorithm run properly. Use the words
+	    	//       Image, Number, String, Boolean to specify the right types.
+	    	//       Name your output images with a name containing "destination" to make CLIJ generate them automatically and
+	    	//       not prompt the user for it.
+			
 		@Override
 		public int setup(String arg, ImagePlus imp) {
 			this.imp = imp;
 			if (!showDialog()){
 					return 0;
+				}
+				return DOES_8G+DOES_16+STACK_REQUIRED;
 			}
-			return DOES_8G+DOES_16+STACK_REQUIRED;
-		}
 
 		@Override
 		public void run(ImageProcessor ip) {
@@ -130,5 +173,26 @@ public class BleachCorrection implements PlugInFilter {
 		public static void setCorrectionMethod(int correctionMethod) {
 			CorrectionMethod = correctionMethod;
 		}
+		
+		@Override
+    		public String getParameterHelpText() {
+        		return "Image source, Image destination, Number scalar";
+    		}
 
+
+    		// -----------------------------------------------------------------------------------------------------------------
+    		// todo: enter the documentation for your plugin here:
+    		@Override
+    		public String getDescription() {
+        		return "Detailed description of your plugin.\n" +
+                	"What happens to the image?" +
+                	"What do the parameters mean?";
+    		}
+
+    		// -----------------------------------------------------------------------------------------------------------------
+    		// todo: enter the image dimensionality for which your algorithm might be applied:
+    		@Override
+    		public String getAvailableForDimensions() {
+        		return "2D, 3D";
+		}
 }
