@@ -1,6 +1,14 @@
 package com.yourdomain.clijplugin;
 
-/**
+/* TODO:
+    -fix exponential method
+    	-returns images that are all maximum intensity
+    -add histogram method
+    -convert to cli2
+    -handle multichannel and timeseries data
+*/
+
+/*
  * Bleach correction on the GPU
  *
  * @Author: Robert Haase, rhaase@mpi-cbg.de
@@ -96,7 +104,7 @@ public class BleachCorrection extends AbstractCLIJPlugin implements CLIJMacroPlu
 		if (selectedMethod == 0) { // simple ratio
 			// adapted from https://github.com/fiji/CorrectBleach/blob/master/src/main/java/emblcmci/BleachCorrection_SimpleRatio.java#L109
 			double referenceInt = sumIntensities[0];
-			for (int i = 1; i < input.getDepth(); i++) {
+			for (int i = 0; i < input.getDepth(); i++) {
 				double currentInt = sumIntensities[i];
 				float ratio = (float)(referenceInt / currentInt);
 				correctionFactors[i] = ratio;
@@ -105,7 +113,8 @@ public class BleachCorrection extends AbstractCLIJPlugin implements CLIJMacroPlu
 		} else if (selectedMethod == 1){ // exponential fit
 			double[] yA = sumIntensities;
 			double[] xA = new double[yA.length];
-			long pixelsPerPlane = input.getWidth() * input.getHeight();
+			long pixelsPerPlane = (input.getWidth() * input.getHeight());
+			System.out.println("using int");
 
 			for (int i = 1; i < input.getDepth(); i++) {
 				yA[i] = yA[i] / pixelsPerPlane;
@@ -133,6 +142,7 @@ public class BleachCorrection extends AbstractCLIJPlugin implements CLIJMacroPlu
 			IJ.log(cf.getResultString());
 
 			double[] respara = cf.getParams();
+			System.out.println(respara);
 			double res_a = respara[0];
 			double res_b = respara[1];
 			double res_c = respara[2];
