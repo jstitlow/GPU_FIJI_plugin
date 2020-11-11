@@ -76,8 +76,8 @@
 		<license.licenseName>gpl_v3</license.licenseName>
 		<license.copyrightOwners>Fiji developers.</license.copyrightOwners>
 		<license.projectName>Fiji distribution of ImageJ for the life sciences.</license.projectName>
-		<imagej.app.directory>C:/programs/fiji-win64/Fiji.app/</imagej.app.directory>
-		<!--<imagej.app.directory>/Applications/Fiji.app</imagej.app.directory>-->
+		<!--<imagej.app.directory>C:/programs/fiji-win64/Fiji.app/</imagej.app.directory>-->
+		<imagej.app.directory>/Applications/Fiji.app</imagej.app.directory>
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>deploy-to-scijava</releaseProfiles>

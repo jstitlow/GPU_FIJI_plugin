@@ -79,7 +79,7 @@ public class BleachCorrection extends AbstractCLIJPlugin implements CLIJMacroPlu
 		ClearCLBuffer output = (ClearCLBuffer)( args[1]);
 		String method = args[2].toString().toLowerCase();
 
-		// got through available methods and search for the entered one
+		// go through available methods and search for the entered one
 		int selectedMethod = 0;
 		for (int i = 0; i < correctionMethods.length; i++) {
 			if (correctionMethods[i].toLowerCase().compareTo(method) == 0) {
