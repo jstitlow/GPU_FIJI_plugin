@@ -16,7 +16,7 @@ Ext.CLIJ_push(input);
 //Ext.CLIJ2_gaussianBlur3D(input, blurred, 10, 10, 1);
 
 // Z correction in GPU
-Ext.CLIJ_bleachCorrection(input, output, "Simple Ratio");
+Ext.CLIJ_bleachCorrection(input, output, "Exponential Fit");
 
 // Get results back from GPU
 Ext.CLIJ_pull(output);

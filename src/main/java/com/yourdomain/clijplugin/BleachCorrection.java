@@ -1,8 +1,6 @@
 package com.yourdomain.clijplugin;
 
 /* TODO:
-    -fix exponential method
-    	-returns images that are all maximum intensity
     -add histogram method
     -convert to cli2
     -handle multichannel and timeseries data
@@ -63,6 +61,7 @@ import ij.plugin.Duplicator;
 import ij.plugin.filter.PlugInFilter;
 import ij.plugin.frame.Fitter;
 import ij.process.ImageProcessor;
+import histogram2.HistogramMatcher;
 
 // added CLIJ imports
 import net.haesleinhuepf.clij.clearcl.ClearCLBuffer;
@@ -114,9 +113,8 @@ public class BleachCorrection extends AbstractCLIJPlugin implements CLIJMacroPlu
 			double[] yA = sumIntensities;
 			double[] xA = new double[yA.length];
 			long pixelsPerPlane = (input.getWidth() * input.getHeight());
-			System.out.println("using int");
 
-			for (int i = 1; i < input.getDepth(); i++) {
+			for (int i = 0; i < input.getDepth(); i++) {
 				yA[i] = yA[i] / pixelsPerPlane;
 				xA[i] = i;
 			}
@@ -151,6 +149,7 @@ public class BleachCorrection extends AbstractCLIJPlugin implements CLIJMacroPlu
 				correctionFactors[i] = (float)(calcExponentialOffset(res_a, res_b, res_c, 0.0) / calcExponentialOffset(res_a, res_b, res_c, (double) (i + 1)));
 			}
 		} else {
+
 			IJ.log("Method " + selectedMethod + "not supported yet.");
 			return true;
 		}
